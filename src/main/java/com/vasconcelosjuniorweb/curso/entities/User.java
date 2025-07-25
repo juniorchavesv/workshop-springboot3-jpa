@@ -10,13 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
-@Entity
-@Table(name = "tb_user")
+@Entity //
+@Table(name = "tb_user") // ESPECIFICANDO O NOME DA TABELA, A PALAVRA USER É RESERVADA
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id // INFORMA PARA O JPA A CHAVE PRIMÁRIA DA TABELA DO BANCO DE DADOS
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // DEFINE AUTO INCREMENTÁVEL
 	private Long id;
 	private String name;
 	private String email;
