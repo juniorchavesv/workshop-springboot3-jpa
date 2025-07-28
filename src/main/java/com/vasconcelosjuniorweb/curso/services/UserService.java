@@ -10,7 +10,7 @@ import com.vasconcelosjuniorweb.curso.entities.User;
 import com.vasconcelosjuniorweb.curso.repositories.UserRepository;
 
 
-@Service  // REGISTRADO COMO COMPONENTE
+@Service  // ANOTAÇÃO REGISTRA SERVIÇO COMO COMPONENTE DO SPRING
 public class UserService {
 	
 	@Autowired // FAZ A INJEÇÃO DE DEPENDENCIA DE FORMA TRANSPARENTE
