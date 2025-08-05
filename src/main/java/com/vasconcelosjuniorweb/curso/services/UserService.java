@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.vasconcelosjuniorweb.curso.entities.User;
 import com.vasconcelosjuniorweb.curso.repositories.UserRepository;
+import com.vasconcelosjuniorweb.curso.services.exceptions.ResourceNotFoundException;
 
 
 @Service  // ANOTAÇÃO REGISTRA SERVIÇO COMO COMPONENTE DO SPRING
@@ -25,7 +26,7 @@ public class UserService {
 	//MÉTODO RETORNA TODOS OS USUÁRIOS DO BANCO PELO ID
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 		
 	}
 	
