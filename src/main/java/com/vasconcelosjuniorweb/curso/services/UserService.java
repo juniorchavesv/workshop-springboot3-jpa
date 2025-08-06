@@ -4,18 +4,28 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.vasconcelosjuniorweb.curso.entities.User;
+import com.vasconcelosjuniorweb.curso.repositories.ProductRepository;
 import com.vasconcelosjuniorweb.curso.repositories.UserRepository;
+import com.vasconcelosjuniorweb.curso.services.exceptions.DatabaseException;
 import com.vasconcelosjuniorweb.curso.services.exceptions.ResourceNotFoundException;
 
 
 @Service  // ANOTAÇÃO REGISTRA SERVIÇO COMO COMPONENTE DO SPRING
 public class UserService {
+
+    private final ProductRepository productRepository;
 	
 	@Autowired // FAZ A INJEÇÃO DE DEPENDENCIA DE FORMA TRANSPARENTE
 	private UserRepository repository;
+
+    UserService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 	
 	//MÉTODO RETORNA TODOS OS USUÁRIOS DO BANCO
 	public List<User> findAll(){
@@ -35,7 +45,14 @@ public class UserService {
 	}
 	
 	public void delete(Long id) {
+		try {
 		repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} 
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 	
 	public User update(Long id, User obj) {
